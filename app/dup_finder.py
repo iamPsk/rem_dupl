@@ -16,13 +16,10 @@ def find_duplicate(path: str):
         
         for cur_entry in _dir:
           if cur_entry.is_dir():
-            # print(f'comparing in {cur_entry.path}')
-            compare(entry, cur_entry.path, False)
-          if cur_entry.is_file() and filecmp.cmp(entry, cur_entry):
-            print(f'Entry: {entry.name} \nCur_entry: {cur_entry.name}')
-              os.unlink(cur_entry.path)
-            
-            return True
+            return compare(entry, cur_entry.path, False)
+
+          if cur_entry.is_file():
+            return filecmp.cmp(entry, cur_entry)
 
     return False
     
@@ -46,6 +43,9 @@ def find_duplicate(path: str):
 
         if compare(entry, path):
           no_of_duplicates += 1
+          print(entry)
+          os.remove(entry)
+
 
   return {
     'no_of_entrys': no_of_entrys,
@@ -56,5 +56,5 @@ def find_duplicate(path: str):
 
 
 if __name__ == "__main__":
-    val = find_duplicate(r'E:\videos')
+    val = find_duplicate(r'E:/Anitoons')
     print(val)
